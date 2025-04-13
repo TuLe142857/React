@@ -17,7 +17,7 @@ function App() {
     axios.post("http://localhost:8080/api/login", { username: username, password: password }).then(
       response => {
         let data = response.data
-        setText(JSON.stringify(data,null, 4))
+        setText(JSON.stringify(data, null, 4))
         setToken(data["token"])
         setJwt(data["token"])
       }
@@ -28,14 +28,14 @@ function App() {
     )
     console.log("hi")
   }
-  function logout(){
+  function logout() {
     removeToken()
     setUsername("")
     setPassword("")
     setJwt("")
   }
 
-  function callAPI() {
+  function call_api_get() {
     apiInstance.get(api).then(
       response => {
         let data = response.data
@@ -44,30 +44,51 @@ function App() {
     ).catch(error => {
       setText("Error: " + error.message);
     })
+  }
 
+  function call_api_post() {
+    apiInstance.post(api).then(
+      response => {
+        let data = response.data
+        setText(JSON.stringify(data, null, 4))
+      }
+    ).catch(error => {
+      setText("Error: " + error.message);
+    })
   }
   return (
     <>
       <div >
-
         <p>token:{jwt}</p>
+
         <input type='text' placeholder='username'
           value={username}
           onChange={(e) => setUsername(e.target.value)}>
         </input>
+
         <br />
-        <input type='text' placeholder='password'
+
+        <input
+          type='text' placeholder='password'
           value={password}
-          onChange={(e) => setPassword(e.target.value)}></input>
+          onChange={(e) => setPassword(e.target.value)}>
+        </input>
+
         <br />
+
         <button onClick={login}>login</button>
+
         <button onClick={logout}>logout</button>
+
         <br />
 
         <input type='text' placeholder='api' value={api}
           onChange={(e) => setApi(e.target.value)}></input>
         <br />
-        <button onClick={callAPI}>send api(get)</button>
+
+        <button onClick={call_api_get}>call api(get)</button>
+        <button onClick={call_api_post}>call api(post)</button>
+
         <br />
         <pre style={{ textAlign: 'left' }}>RESULT: {text}</pre>
       </div>
